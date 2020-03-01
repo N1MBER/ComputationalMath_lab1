@@ -9,7 +9,6 @@ while flag:
           "4. Exit.")
     answer = input()
     if answer == "1":
-        print("Please input coefficient")
         input_from_console()
     elif answer == "2":
         print("File must contain linear system in format:\n" +
