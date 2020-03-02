@@ -1,5 +1,5 @@
-#Application for calculation system of linear equations 
-####Available functionality:
+# Application for calculation system of linear equations 
+#### Available functionality:
 * Input system manually
 * Input system from file
 * Generate random system
