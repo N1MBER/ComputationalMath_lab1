@@ -46,10 +46,16 @@ def input_from_file(path):
                     return
                 a.append(list(line))
         file.close()
+        print(a)
+        print(n)
         calculator = Calculator(n, optimize(a, n))
         calculator.calculate()
     except FileNotFoundError:
         print("File " + path + " don't exist.")
+        return
+    except UnboundLocalError:
+        return
+
 
 
 def random_system():
@@ -60,9 +66,9 @@ def random_system():
             for i in range(n):
                 line = []
                 for j in range(n):
-                    line.append(toFixed((random.random() * 100 - 50), 3))
+                    line.append(random.random() * 100 - 50)
                 line.append("|")
-                line.append(toFixed((random.random() * 100 - 50), 3))
+                line.append(random.random() * 100 - 50)
                 a.append(line)
             calculator = Calculator(n, a)
             calculator.calculate()
@@ -106,9 +112,13 @@ class Calculator:
     def __init__(self, n, system):
         self.n = n
         self.system = system
+        self.x = []
 
     def calculate(self):
+        print("\nMain system:\n")
+        self.__print_system()
         self.__make_triangle()
+        print("\nTriangle system:\n")
         self.__print_system()
         self.__get_determinate()
         self.__x_calculation()
@@ -152,7 +162,7 @@ class Calculator:
                     while j < self.n:
                         self.system[m + 1][j] += a * self.system[i][j]
                         j += 1
-                    self.system[m + 1][-1] += a* self.system[i][-1]
+                    self.system[m + 1][-1] += a * self.system[i][-1]
                     m += 1
                 k = 0
                 line_sum = 0
@@ -175,15 +185,16 @@ class Calculator:
             while j < self.n:
                 print(str(self.system[i][j]) + " x_" + str(j) + " ", end='')
                 j += 1
-            print(str(self.system[i][-2]) + " " + str(self.system[i][-1]),end='')
+            print(str(self.system[i][-2]) + " " + str(self.system[i][-1]), end='')
             print("")
             i += 1
 
     def __print_x(self):
         i = 0
+        print("\nSolutions:")
         self.x.reverse()
         while i < self.n:
-            print("X_" + str(i) + ": " + str(self.x[i]))
+            print("\tX_" + str(i) + ": " + str(self.x[i]))
             i += 1
 
     def __get_determinate(self):
@@ -192,10 +203,11 @@ class Calculator:
         while i < self.n:
             self.det *= self.system[i][i]
             i += 1
-        print("Determinant: " + str(self.det))
+        print("\nDeterminant: " + str(self.det))
 
     def __get_residuals(self):
         i = 0
+        print("\nResiduals:")
         while i < self.n:
             res = 0
             j = 0
@@ -204,4 +216,5 @@ class Calculator:
                 j += 1
             res -= self.system[i][-1]
             i += 1
-            print("Residual> for row №" + str(i) + " = " + str(res))
+            print("\tResidual for row №" + str(i) + " = " + str(abs(res)))
+        print("")
