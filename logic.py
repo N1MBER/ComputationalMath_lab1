@@ -46,8 +46,6 @@ def input_from_file(path):
                     return
                 a.append(list(line))
         file.close()
-        print(a)
-        print(n)
         calculator = Calculator(n, optimize(a, n))
         calculator.calculate()
     except FileNotFoundError:
