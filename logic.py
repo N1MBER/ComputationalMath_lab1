@@ -184,8 +184,10 @@ class Calculator:
                 i += 1
         except ValueError:
             print("Incorrect working data.")
+            return
         except ArithmeticError:
             print("")
+            return
 
     def __print_system(self):
         i = 0
@@ -217,6 +219,9 @@ class Calculator:
             self.det *= self.system[i][i]
             i += 1
         print("\nDeterminant: " + str(self.det))
+        if self.det == 0:
+            print("This is degenerate system, no solution.")
+            return ArithmeticError
 
     # ===========================
     # Return a residuals of the
