@@ -22,6 +22,7 @@ def input_from_console():
                         break
             calculator = Calculator(n, optimize(a, n))
             calculator.calculate()
+            del calculator
         else:
             print("Incorrect input.")
             return
@@ -48,6 +49,7 @@ def input_from_file(path):
         file.close()
         calculator = Calculator(n, optimize(a, n))
         calculator.calculate()
+        del calculator
     except FileNotFoundError:
         print("File " + path + " don't exist.")
         return
@@ -69,6 +71,7 @@ def random_system():
                 a.append(line)
             calculator = Calculator(n, a)
             calculator.calculate()
+            del calculator
         else:
             print("Incorrect input.")
             return
@@ -105,22 +108,31 @@ class Calculator:
     x = []
     system = []
     det = 0
+    swap = 0
 
     def __init__(self, n, system):
         self.n = n
         self.system = system
         self.x = []
+        self.swap = 0
 
     def calculate(self):
-        print("\nMain system:\n")
-        self.__print_system()
-        self.__make_triangle()
-        print("\nTriangle system:\n")
-        self.__print_system()
-        self.__get_determinate()
-        self.__x_calculation()
-        self.__print_x()
-        self.__get_residuals()
+        try:
+            print("\nMain system:\n")
+            self.__print_system()
+            self.__make_triangle()
+            print("\nTriangle system:\n")
+            self.__print_system()
+            self.__get_determinate()
+            self.__x_calculation()
+            self.__print_x()
+            self.__get_residuals()
+        except ZeroDivisionError:
+            print("")
+            return
+        except ArithmeticError:
+            print("")
+            return
 
     # ============================
     # Permutation of equations if
@@ -133,6 +145,7 @@ class Calculator:
                 swap = self.system[j]
                 self.system[j] = self.system[i]
                 self.system[i] = swap
+                self.swap += 1
                 return
             j += 1
         print("No solutions")
@@ -185,9 +198,7 @@ class Calculator:
         except ValueError:
             print("Incorrect working data.")
             return
-        except ArithmeticError:
-            print("")
-            return
+
 
     def __print_system(self):
         i = 0
@@ -218,6 +229,8 @@ class Calculator:
         while i < self.n:
             self.det *= self.system[i][i]
             i += 1
+        if self.swap % 2 == 1:
+            self.det *= -1
         print("\nDeterminant: " + str(self.det))
         if self.det == 0:
             print("This is degenerate system, no solution.")
