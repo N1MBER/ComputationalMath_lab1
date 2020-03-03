@@ -57,7 +57,6 @@ def input_from_file(path):
         return
 
 
-
 def random_system():
     try:
         n = int(input("Number of equations (less than 20 and more than 1):").strip())
@@ -125,6 +124,10 @@ class Calculator:
         self.__print_x()
         self.__get_residuals()
 
+    # ============================
+    # Permutation of equations if
+    # element with index [i,i] = 0
+    # ============================
     def __check_diagonal(self, i):
         j = i
         while j < self.n:
@@ -137,6 +140,9 @@ class Calculator:
         print("No solutions")
         return ArithmeticError
 
+    # ===========================================
+    # Calculate a solution of the triangle matrix
+    # ===========================================
     def __x_calculation(self):
         i = self.n - 2
         self.x.append(self.system[self.n - 1][-1]/self.system[self.n - 1][self.n - 1])
@@ -149,6 +155,11 @@ class Calculator:
             self.x.append(value/self.system[i][i])
             i -= 1
 
+    # =========================================
+    # Makes a square matrix triangle with using
+    # Gaussian method, throw a ValueError if
+    # data not correct
+    # =========================================
     def __make_triangle(self):
         try:
             i = 0
@@ -197,6 +208,10 @@ class Calculator:
             print("\tX_" + str(i) + ": " + str(self.x[i]))
             i += 1
 
+    # ===========================
+    # Return a determinate of the
+    # triangle system
+    # ===========================
     def __get_determinate(self):
         i = 0
         self.det = 1
@@ -205,6 +220,10 @@ class Calculator:
             i += 1
         print("\nDeterminant: " + str(self.det))
 
+    # ===========================
+    # Return a residuals of the
+    # triangle system
+    # ===========================
     def __get_residuals(self):
         i = 0
         print("\nResiduals:")

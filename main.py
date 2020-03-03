@@ -2,6 +2,9 @@ from logic import input_from_console, input_from_file, random_system
 
 print("Welcome to linear equations system solver!\n")
 
+# =============================
+# Implementing user interaction
+# =============================
 while 1:
     try:
         print("Available functionality:\n" +
